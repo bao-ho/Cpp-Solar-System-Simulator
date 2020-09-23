@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/FileIcons">
+        <file>folder2.png</file>
+    </qresource>
+    <qresource prefix="/CommandIcons">
+        <file>play.png</file>
+        <file>pause.png</file>
+    </qresource>
+</RCC>

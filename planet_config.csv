@@ -1,0 +1,5 @@
+Object,Mass,x,y,z
+Sun,20,0,0,0
+Earth,2,10,0,0
+Mars,1,15,0,0
+Jupiter,4,25,0,0
