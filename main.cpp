@@ -7,7 +7,7 @@ int main(int argc, char *argv[]){
     SolarVisWindow window;
     window.resize(640,480);
     window.setWindowTitle("Solar System Simulator");
-    //window.setWindowState(Qt::WindowMaximized);
+    window.setWindowState(Qt::WindowMaximized);
     window.show();
     return app.exec();
 }

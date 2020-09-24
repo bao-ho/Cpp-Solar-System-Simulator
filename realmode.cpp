@@ -17,7 +17,7 @@ RealMode::~RealMode()
 
 void RealMode::on_loadFile_clicked()
 {
-    fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "/home/cppdev/solar_vtk",
+    fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "../Solar_Final",
                                                     "CSV Files (*.csv)");
     ui->fileNameLabel->setText(fileName);
 }

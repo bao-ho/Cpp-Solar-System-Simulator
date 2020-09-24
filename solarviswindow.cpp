@@ -29,6 +29,8 @@
 #include "realmode.h"
 #include <QtMath>
 
+#include <vtkLookupTable.h>
+
 /*Bao's include - END*/
 
 /*Bao's TODO:   the three methods: constructor, on_actionOpen_data_triggered() and createNewSolarSystemFromFile(QString) contain
@@ -36,16 +38,12 @@
                 similar lengthy code that should be cut out and put into a new method to improve readability                */
 
 
-SolarVisWindow::SolarVisWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::SolarVisWindow)
+SolarVisWindow::SolarVisWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::SolarVisWindow)
 {
     // Flag determining visualisation type
-
     bool useSpheres = true;
 
     // Initialise user interface
-
     ui->setupUi(this);
 
     // Create solarsystem simulation
@@ -74,11 +72,35 @@ SolarVisWindow::SolarVisWindow(QWidget *parent) :
 
     vtkSmartPointer<vtkDoubleArray> radiusArray = vtkSmartPointer<vtkDoubleArray>::New();
     radiusArray->SetNumberOfValues(m_solarSystem->size());
+                    radiusArray->SetName("radius");
+
+                    //TEST CODE
+                    // setup color label
+                    vtkSmartPointer<vtkDoubleArray> col = vtkSmartPointer<vtkDoubleArray>::New();
+                    col->SetName("color");
+
+
+
+                    // setup lookupTable and add some colors
+                    vtkSmartPointer<vtkLookupTable> colors = vtkSmartPointer<vtkLookupTable>::New();
+                    colors->SetNumberOfTableValues(4);
+                    colors->SetTableValue(0 ,1.0 ,0.0 ,0.0 ,1.0); // red
+                    colors->SetTableValue(1 ,0.0 ,1.0 ,0.0 ,1.0); // green
+                    colors->SetTableValue(2 ,0.0 ,0.0 ,1.0 ,1.0); // blue
+                    colors->SetTableValue(3 ,1.0 ,1.0 ,0.0 ,1.0); // yellow
+                    // the last double value is for opacity (1->max, 0->min)
+
 
     for (int i=0;i<m_solarSystem->size();i++)
-        radiusArray->SetValue(i, m_solarSystem->at(i)->mass());
+    {
+                    radiusArray->SetValue(i, m_solarSystem->at(i)->mass());
+                    col->InsertNextValue(i%4);
 
-    m_polyData->GetPointData()->SetScalars(radiusArray);
+    }
+                    m_polyData->GetPointData()->AddArray(radiusArray);
+                    m_polyData->GetPointData()->SetActiveScalars("radius"); //Set radius
+                    m_polyData->GetPointData()->AddArray(col);
+    // m_polyData->GetPointData()->SetScalars(radiusArray);
 
     // This is our glyph that will represent the planet bodies
 
@@ -113,8 +135,14 @@ SolarVisWindow::SolarVisWindow(QWidget *parent) :
     if (useSpheres)
     {
         m_mapper->SetInputConnection(m_glyph3d->GetOutputPort());
-        m_mapper->SetScalarRange(0.1, 2);
-        m_mapper->ScalarVisibilityOn();
+        //m_mapper->SetScalarRange(0.1, 2);
+        //m_mapper->ScalarVisibilityOn();
+
+                //TEST CODE
+                m_mapper->SetScalarModeToUsePointFieldData(); // without, color are displayed regarding radius and not color label
+                m_mapper->SetScalarRange(0, 3); // to scale color label (without, col should be between 0 and 1)
+                m_mapper->SelectColorArray("color"); // !!!to set color (nevertheless you will have nothing)
+                m_mapper->SetLookupTable(colors);
     }
     else
     {
@@ -589,9 +617,9 @@ void SolarVisWindow::createNewSolarSystemFromFile (QString fileName){
     // Camera
 
     vtkSmartPointer<vtkCamera> camera = vtkSmartPointer<vtkCamera>::New();
-    camera->SetPosition(0, 100, 0);
+    camera->SetPosition(0, -DEFAULT_CAMERA_HEIGHT, DEFAULT_CAMERA_HEIGHT);
     camera->SetFocalPoint(0, 0, 0);
-    camera->SetViewUp(1, 0, 0);
+    camera->SetViewUp(0, 1, 1);
 
     m_renderer->SetActiveCamera(camera);
 

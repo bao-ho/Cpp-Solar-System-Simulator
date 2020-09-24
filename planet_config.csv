@@ -1,5 +1,4 @@
-Object,Mass,x,y,z
-Sun,20,0,0,0
-Earth,2,10,0,0
-Mars,1,15,0,0
-Jupiter,4,25,0,0
+Object,Mass (1e23 kg),X (1e9 m),Y (1e9 m),Z (1e9 m),VX (km/s),VY (km/s),VZ (km/s)
+Sun,19890000,0,0,0,0,0,0
+Earth,59.7,150.09,0,0,0,29.78,0
+Mars,6.39,210.63,0,0,0,24.07,0

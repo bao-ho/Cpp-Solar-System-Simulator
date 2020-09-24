@@ -26,9 +26,10 @@
 #include <vtkVertexGlyphFilter.h>
 
 /*Bao's define - BEGIN*/
+#define DEFAULT_CAMERA_HEIGHT 1000
 #define N_TRAJECTORY_SEGMENT 500
-#define N_PLANET 100
-#define REAL_G 0.185E-11 //still, not a real value of G
+#define N_PLANET 10
+#define REAL_G 6.674e-3 //in scaled unit
 /*Bao's define - BEGIN*/
 
 #include "solarsystem.h"
