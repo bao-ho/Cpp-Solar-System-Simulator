@@ -10,14 +10,19 @@ Planet::Planet(double m, double x, double y, double z)
     m_mass = m;
 }
 
-Planet::Planet(double m, double x, double y, double z,
+Planet::Planet(double m, QString name,
+               double diameter, unsigned int color,
+               double x, double y, double z,
                double vx, double vy, double vz,
                double ax, double ay, double az)
 {
     m_loc.setComponents(x, y, z);
     m_vel.setComponents(vx, vy, vz);
     m_acc.setComponents(ax, ay, az);
+    m_name = name;
     m_mass = m;
+    m_diameter = diameter;
+    m_color = color;
 }
 
 Vec3d Planet::location()
@@ -65,6 +70,20 @@ double Planet::getAx(){
 double Planet::getAz(){
     return m_acc.z();
 }
+unsigned int Planet::getColor()
+{
+    return m_color;
+}
+
+QString Planet::getName()
+{
+    return m_name;
+}
+double Planet::getDiameter()
+{
+    return m_diameter;
+}
+
 void Planet::setX(double x){
     m_loc.setX(x);
 }

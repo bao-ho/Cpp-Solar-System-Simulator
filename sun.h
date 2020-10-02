@@ -10,15 +10,18 @@ private:
     double m_mass;
     Vec3d m_loc;
     double m_G;
+    double m_diameter;
+    unsigned int m_color;
 public:
-    Sun();
-    Sun(double sunMass, double G);
+    Sun(double sunMass, double sunDiameter, unsigned int sunColor, double G);
     double getM();
     void setG (double);
     double getG();
     double getX();
     double getY();
     double getZ();
+    unsigned int getColor();
+    double getDiameter();
     Vec3d attract(Planet* m);
 };
 

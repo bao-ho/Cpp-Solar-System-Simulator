@@ -1,4 +1,4 @@
-Object,Mass (1e23 kg),X (1e9 m),Y (1e9 m),Z (1e9 m),VX (km/s),VY (km/s),VZ (km/s)
-Sun,19890000,0,0,0,0,0,0
-Earth,59.7,150.09,0,0,0,29.78,0
-Mars,6.39,210.63,0,0,0,24.07,0
+Object,Mass (1e23 kg),X (1e9 m),Y (1e9 m),Z (1e9 m),Diameter (1e9 m),Color (Hex),,
+Sun,19890000,0,0,0,1.3927,FCE300,,https://nssdc.gsfc.nasa.gov/planetary/factsheet/
+Earth,59.7,150.09,0,0,0.012742,668BF5,,
+Mars,6.39,210.63,0,0,0.006779,D8482D,,

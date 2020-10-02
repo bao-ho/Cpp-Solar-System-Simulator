@@ -4,50 +4,37 @@
 #include <QDebug>
 #include <iostream>
 #include <QtMath>
+#include <vector>
 
 using namespace std;
 
-SolarSystem::SolarSystem(int n)
+SolarSystem::SolarSystem(double sunMass, double sunDiameter, unsigned int sunColor,
+                         std::vector<double>& planetMass, QStringList& planetName,
+                         std::vector<double>& planetDiameter, std::vector<unsigned int>& planetColor,
+                         std::vector<double>& pX, std::vector<double>& pY, std::vector<double>& pZ, double G)
 :Base()
 {
-    m_sun = new Sun();
-    double m, x, y, z, v, vx, vy, vz, a, ax, ay, az, dist;
-    for (int i=0; i<n; i++)
+    m_sun = new Sun(sunMass, sunDiameter, sunColor, G);
+    double v, a, vx, vy, vz, ax, ay, az, dist;
+    for (int i=0; i<planetMass.size(); i++)
     {
-        m = random(0.5, 2);
-        x = randomAbs(5, 25);
-        y = 0;
-        z = randomAbs(5, 25);
-        dist = qSqrt (x*x + y*y + z*z);
+        dist = qSqrt (pX[i]*pX[i] + pY[i]*pY[i] + pZ[i]*pZ[i]);
 
         ay = 0;
         a  = - m_sun->getG()*m_sun->getM()/(dist*dist);
-        ax = a * (x-m_sun->getX()) / dist;
-        az = a * (z-m_sun->getZ()) / dist;
+        ax = a * (pX[i]-m_sun->getX()) / dist;
+        az = a * (pZ[i]-m_sun->getZ()) / dist;
 
         vy = 0;
         v  = qSqrt(-a*dist);
-        vx = v * -(z-m_sun->getZ()) / dist;//initial v is perpendicular to initial a
-        vz = v * (x-m_sun->getX()) / dist;
+        vx = v * -(pZ[i]-m_sun->getZ()) / dist;//initial v is perpendicular to initial a
+        vz = v *  (pX[i]-m_sun->getX()) / dist;
 
-        Planet* planet = new Planet(m, x, y, z, vx, vy, vz, ax, ay, az);
-        m_planets.push_back(planet);
-    }
-}
-
-SolarSystem::SolarSystem(int n, double sunMass, double* pMass, double* pX, double* pY, double* pZ, double G)
-:Base()
-{
-    m_sun = new Sun(sunMass, G);
-    for (int i=0; i<n; i++)
-    {
-        double vx, vy, vz, ax, ay, az, dist;
-        dist = qSqrt (pX[i]*pX[i]+pY[i]*pY[i]+pZ[i]*pZ[i]);
-        ay = az = 0;
-        ax = - m_sun->getG()*m_sun->getM()/(dist*dist);
-        vx = vy = 0;
-        vz = qSqrt(-ax*dist);
-        Planet* planet = new Planet(pMass[i], pX[i], pY[i], pZ[i], vx, vy, vz, ax, ay, az);
+        Planet* planet = new Planet(planetMass[i], planetName.at(i),
+                                    planetDiameter[i], planetColor[i],
+                                    pX[i], pY[i], pZ[i],
+                                    vx, vy, vz,
+                                    ax, ay, az);
         m_planets.push_back(planet);
     }
 }

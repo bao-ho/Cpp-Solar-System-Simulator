@@ -25,13 +25,6 @@
 #include <vtkMath.h>
 #include <vtkVertexGlyphFilter.h>
 
-/*Bao's define - BEGIN*/
-#define DEFAULT_CAMERA_HEIGHT 1000
-#define N_TRAJECTORY_SEGMENT 500
-#define N_PLANET 10
-#define REAL_G 6.674e-3 //in scaled unit
-/*Bao's define - BEGIN*/
-
 #include "solarsystem.h"
 
 namespace Ui {
@@ -45,10 +38,9 @@ class SolarVisWindow : public QMainWindow
 private:
     vtkSmartPointer<vtkPoints> m_points;
     /*Bao's declaration - BEGIN*/
-    vtkSmartPointer<vtkPoints> b_pointsArray[N_PLANET];//static allocation - NEED IMPROVEMENT
+    std::vector<vtkSmartPointer<vtkPoints>> b_pointsArray;
     unsigned int n_planet;//actual number of planets
     unsigned int counter = 0; //used in onRedrawTimer function to slow down updating rate of drawing trajectory
-    bool playing = true;
     /*Bao's declaration - END*/
     vtkSmartPointer<vtkPolyData> m_polyData;
     vtkSmartPointer<vtkSphereSource> m_sphereSource;
@@ -65,17 +57,17 @@ private:
     QTimer* m_redrawTimer;
 
     //Remember the speed up value, to display on the slider
-    unsigned int solarSpeedUpValue = 1;
+    unsigned int speedUpFactor = 1e6;
 
 
 public:
     explicit SolarVisWindow(QWidget *parent = 0);
     ~SolarVisWindow();
-    void startBasicMode(unsigned int, unsigned int, unsigned int);
-    void changeSunSize (unsigned int);
-    void updateInterval (unsigned int);
-    void speedUpRealMode (unsigned int);
-    void createNewSolarSystemFromFile (QString);
+    void startBasicMode(unsigned int, unsigned int, double);
+    void speedUpRealMode (unsigned int speedFactor);
+    void createNewSolarSystemFromFile (QString);    
+    Vec3d convertIntToRGB(unsigned int colorAsInt);
+    void draw (unsigned int updateInterval, double diameterScale);
 
 private slots:
     void onRedrawTimer();

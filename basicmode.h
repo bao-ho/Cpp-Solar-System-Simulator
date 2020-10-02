@@ -3,12 +3,9 @@
 
 #include <QDialog>
 
-#define SUN_SMALL 1
-#define SUN_MEDIUM 2
-#define SUN_BIG 3
-#define BASIC_MODE_UPDATE_ALL 1
-#define BASIC_MODE_UPDATE_SIZE 2
-#define BASIC_MODE_UPDATE_INTERVAL 3
+#define USER_SCALE_SMALL    10
+#define USER_SCALE_MEDIUM   20
+#define USER_SCALE_LARGE    30
 
 namespace Ui {
 class BasicMode;
@@ -23,23 +20,18 @@ public:
     ~BasicMode();
     unsigned int getNumberOfPlanetFromUser();
     unsigned int getUpdateIntervalFromUser();
-    unsigned int getSunSizeFromUser();
+    unsigned int getDiameterScaleFromUser();
     unsigned int getbasicModeAction();
 
 private slots:
 
     void on_createNewButton_clicked();
 
-    void on_changeSizeButton_clicked();
-
-    void on_updateButton_clicked();
-
 private:
     Ui::BasicMode *ui;
     unsigned int numberOfPlanetFromUser;
     unsigned int updateIntervalFromUser;
-    unsigned int sunSizeFromUser;
-    unsigned int basicModeAction;
+    unsigned int diameterScaleFromUser;
 
 };
 

@@ -5,6 +5,7 @@
 #include "base.h"
 #include "planet.h"
 #include "sun.h"
+#include <string>
 
 class SolarSystem : public Base {
 private:
@@ -12,8 +13,10 @@ private:
     Sun* m_sun;
 
 public:
-    SolarSystem(int n = 100);
-    SolarSystem(int n, double sunMass, double* pMass, double* pX, double* pY, double* pZ, double G);
+    SolarSystem(double sunMass, double sunDiameter, unsigned int sunColor,
+                std::vector<double>& planetMass, QStringList& planetName,
+                std::vector<double>& planetDiameter, std::vector<unsigned int>& planetColor,
+                std::vector<double>& X, std::vector<double>& Y, std::vector<double>& Z, double G);
     virtual ~SolarSystem();
 
 	void clear();
